@@ -84,18 +84,24 @@ const inventorySet = new Set(inventoryItems.map(norm));
   const addItem = () => {
   const value = currentItem.trim();
   if (!value) return;
+
   if (!inventorySet.has(norm(value))) {
     toast.error("Please select an item from Inventory");
     return;
-    }
+  }
+
   setFormData(prev => {
     const prevArr = prev.top5Items || [];
-    // avoid duplicates, keep max 5
-    const next = Array.from(new Set([...prevArr, value])).slice(0, 5);
+
+    // allow unlimited items but still avoid duplicates
+    const next = Array.from(new Set([...prevArr, value]));
+
     return { ...prev, top5Items: next };
   });
+
   setCurrentItem('');
 };
+
 
 
   const removeItem = (index: number) => {
